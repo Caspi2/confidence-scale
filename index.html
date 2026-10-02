@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
 <title>Extendable Confidence Scale</title>
 
 <style>
@@ -18,7 +19,8 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  html, body {
+  html,
+  body {
     margin: 0;
     width: 100%;
     height: 100%;
@@ -28,7 +30,9 @@
     color: #111;
   }
 
-  body { touch-action: none; }
+  body {
+    touch-action: none;
+  }
 
   .screen {
     width: 100%;
@@ -40,7 +44,9 @@
     padding: 30px 7vw;
   }
 
-  .hidden { display: none !important; }
+  .hidden {
+    display: none !important;
+  }
 
   h1 {
     font-size: clamp(28px, 4vw, 44px);
@@ -57,7 +63,13 @@
     margin-bottom: 45px;
   }
 
-  .task { width: min(1100px, 92vw); }
+  .task {
+    width: min(1100px, 92vw);
+  }
+#scale1 {
+  width: 75%;
+  margin: 0 auto;
+}
 
   .animal-row {
     display: flex;
@@ -106,15 +118,44 @@
     border: 2px solid #555;
     border-radius: 12px;
     transform: translateY(-50%);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.15);
-    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
   }
+.extension-left {
+  left: 0;
+  width: 16.6667%;
+  background: linear-gradient(
+    90deg,
+    #260503 0%,
+    #5a3900 50%,
+    #8a5a00 100%
+  );
+  border-radius: 10px 0 0 10px;
+}
 
-  /* Trial 1 is deliberately a little shorter visually. */
-  #scale1 {
-    width: 75%;
-    margin: 0 auto;
-  }
+.original-range {
+  left: 16.6667%;
+  width: 66.6667%;
+  background: linear-gradient(
+    90deg,
+    #c79d4a 0%,
+    #eee7d3 38%,
+    #f1f1f1 50%,
+    #f0d7d2 62%,
+    #c66f65 100%
+  );
+}
+
+.extension-right {
+  right: 0;
+  width: 16.6667%;
+  background: linear-gradient(
+    90deg,
+    #8a2017 0%,
+    #5a100b 50%,
+    #100201 100%
+  );
+  border-radius: 0 10px 10px 0;
+}
 
   .tick {
     position: absolute;
@@ -132,6 +173,8 @@
     transform: translateX(-50%);
     font-size: 14px;
     color: #555;
+    white-space: nowrap;
+    z-index: 2;
   }
 
   .handle {
@@ -143,9 +186,9 @@
     background: white;
     border: 5px solid var(--accent);
     transform: translate(-50%, -50%);
-    box-shadow: 0 2px 7px rgba(0,0,0,.18);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
     touch-action: none;
-    z-index: 5;
+    z-index: 4;
   }
 
   .handle:after {
@@ -154,6 +197,10 @@
     inset: -18px;
   }
 
+  /*
+    Dit is het visuele merkteken van het
+    eerste antwoord in trial 2.
+  */
   .first-answer-marker {
     position: absolute;
     top: 50%;
@@ -161,7 +208,7 @@
     height: 52px;
     background: #777;
     transform: translate(-50%, -50%);
-    z-index: 3;
+    z-index: 2;
   }
 
   .first-answer-label {
@@ -171,78 +218,7 @@
     font-size: 15px;
     color: #777;
     white-space: nowrap;
-    z-index: 3;
-  }
-
-  /* Trial 2: original 0–100 range is lighter;
-     the newly added -25–0 and 100–125 parts
-     become progressively darker toward the endpoints. */
-  #scale2 .extension-left,
-  #scale2 .original-range,
-  #scale2 .extension-right {
-    position: absolute;
-    top: 0;
-    height: 100%;
-  }
-
-  #scale2 .extension-left {
-    left: 0;
-    width: 16.6667%;
-    background: linear-gradient(
-      90deg,
-      #120b00 0%,
-      #3f2700 45%,
-      #8a5a00 100%
-    );
-    border-radius: 10px 0 0 10px;
-  }
-
-  #scale2 .original-range {
-    left: 16.6667%;
-    width: 66.6667%;
-    background: linear-gradient(
-      90deg,
-      #c79d4a 0%,
-      #eee7d3 38%,
-      #f1f1f1 50%,
-      #f0d7d2 62%,
-      #c66f65 100%
-    );
-  }
-
-  #scale2 .extension-right {
-    right: 0;
-    width: 16.6667%;
-    background: linear-gradient(
-      90deg,
-      #8a2017 0%,
-      #4a0b07 50%,
-      #100201 100%
-    );
-    border-radius: 0 10px 10px 0;
-  }
-
-  .midpoint {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 2px;
-    height: 48px;
-    background: #888;
-    transform: translate(-50%, -50%);
-    opacity: .75;
-    z-index: 3;
-  }
-
-  .midpoint-label {
-    position: absolute;
-    left: 50%;
-    top: calc(50% + 33px);
-    transform: translateX(-50%);
-    font-size: 15px;
-    color: #777;
-    white-space: nowrap;
-    z-index: 3;
+    z-index: 2;
   }
 
   .value {
@@ -266,7 +242,9 @@
     cursor: pointer;
   }
 
-  button:disabled { opacity: .35; }
+  button:disabled {
+    opacity: 0.35;
+  }
 
   .start-box {
     display: flex;
@@ -292,370 +270,947 @@
     color: #aaa;
   }
 
-  .finish { text-align: center; }
-  .finish p { font-size: 24px; }
-
-  .status {
-    min-height: 28px;
-    margin-top: 18px;
-    font-size: 17px;
-    color: #666;
+  .finish {
+    text-align: center;
   }
 
-  .status.error { color: #8f1d14; }
+  .finish p {
+    font-size: 24px;
+  }
 
   @media (max-width: 600px) {
-    .screen { padding: 20px 5vw; }
-    .instruction { margin-bottom: 30px; }
-    .animal { font-size: 58px; }
-    .animal-label { font-size: 15px; }
-    button { font-size: 18px; padding: 14px 26px; }
+
+    .screen {
+      padding: 20px 5vw;
+    }
+
+    .instruction {
+      margin-bottom: 30px;
+    }
+
+    .animal {
+      font-size: 58px;
+    }
+
+    .animal-label {
+      font-size: 15px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 14px 26px;
+    }
   }
 </style>
 </head>
 
 <body>
 
+
+<!-- =====================================================
+     START
+===================================================== -->
+
 <section id="start" class="screen">
+
   <div class="start-box">
+
     <h1>Confidence Scale</h1>
-    <div class="instruction">Enter a participant ID to begin.</div>
-    <input id="participant" inputmode="text" autocomplete="off" placeholder="Participant ID">
-    <button id="startBtn">Start</button>
+
+    <div class="instruction">
+      Enter a participant ID to begin.
+    </div>
+
+    <input
+      id="participant"
+      inputmode="text"
+      autocomplete="off"
+      placeholder="Participant ID"
+    >
+
+    <button id="startBtn">
+      Start
+    </button>
+
   </div>
+
 </section>
+
+
+
+<!-- =====================================================
+     TRIAL 1
+     
+     Deze trial blijft een normale schaal van 0-100.
+===================================================== -->
 
 <section id="trial1" class="screen hidden">
-  <h1>Which animal do you think there are more of?</h1>
-  <div class="instruction">Tap or drag the circle to show what you think.</div>
+
+  <h1>
+    Which animal do you think there are more of?
+  </h1>
+
+  <div class="instruction">
+    Tap or drag the circle to show what you think.
+  </div>
 
   <div class="task">
+
     <div class="animal-row">
+
       <div class="animal">
+
         <div id="leftAnimal1">🐶</div>
-        <div class="animal-label" id="leftLabel1">Dog</div>
+
+        <div class="animal-label" id="leftLabel1">
+          Dog
+        </div>
+
       </div>
+
+
       <div class="animal">
+
         <div id="rightAnimal1">🐱</div>
-        <div class="animal-label" id="rightLabel1">Cat</div>
+
+        <div class="animal-label" id="rightLabel1">
+          Cat
+        </div>
+
       </div>
+
     </div>
+
 
     <div class="scale-wrap" id="scale1">
+
       <div class="scale-line"></div>
-      <div class="tick" style="left:10%;"></div>
-      <div class="tick" style="left:20%;"></div>
-      <div class="tick" style="left:30%;"></div>
-      <div class="tick" style="left:40%;"></div>
-      <div class="tick" style="left:50%;"></div>
-      <div class="tick" style="left:60%;"></div>
-      <div class="tick" style="left:70%;"></div>
-      <div class="tick" style="left:80%;"></div>
-      <div class="tick" style="left:90%;"></div>
-      <div class="handle hidden" id="handle1"></div>
+
+      <div
+        class="handle hidden"
+        id="handle1">
+      </div>
+
     </div>
 
-    <div class="value" id="value1"></div>
+
+    <div
+      class="value"
+      id="value1">
+    </div>
+
   </div>
 
-  <button id="next1" disabled>Continue</button>
+
+  <button id="next1" disabled>
+    Continue
+  </button>
+
 </section>
+
+
+
+<!-- =====================================================
+     TRIAL 2
+     
+     NIEUWE UITBREIDBARE SCHAAL:
+     
+     -25 ---------------------------- 125
+     
+     Eerste antwoord blijft op dezelfde
+     NUMERIEKE waarde staan.
+===================================================== -->
 
 <section id="trial2" class="screen hidden">
-  <h1>How sure are you?</h1>
-  <div class="instruction">Your first answer is now the middle. Show your new belief.</div>
+
+   <h1>
+    Which animal do you think there are more of?
+  </h1>
+
+  <div class="instruction">
+    Tap or drag the circle to show what you think.
+  </div>
+
 
   <div class="task">
+
     <div class="animal-row">
+
       <div class="animal">
+
         <div id="leftAnimal2">🐶</div>
-        <div class="animal-label" id="leftLabel2">Dog</div>
+
+        <div class="animal-label" id="leftLabel2">
+          Dog
+        </div>
+
       </div>
+
+
       <div class="animal">
+
         <div id="rightAnimal2">🐱</div>
-        <div class="animal-label" id="rightLabel2">Cat</div>
-      </div>
-    </div>
 
-    <div class="scale-wrap" id="scale2">
-      <div class="scale-line">
-        <div class="extension-left"></div>
-        <div class="original-range"></div>
-        <div class="extension-right"></div>
+        <div class="animal-label" id="rightLabel2">
+          Cat
+        </div>
+
       </div>
 
-      <div class="midpoint" id="midpoint"></div>
-      <div class="midpoint-label" id="midpointLabel">your first answer</div>
-
-      <!-- Tick positions correspond to -25, 0, 25, 50, 75, 100, 125 -->
-      <div class="tick" style="left:0%;"></div>
-      <div class="tick-label" style="left:0%;">−25</div>
-
-      <div class="tick" style="left:16.6667%;"></div>
-      <div class="tick-label" style="left:16.6667%;">0</div>
-
-      <div class="tick" style="left:33.3333%;"></div>
-      <div class="tick-label" style="left:33.3333%;">25</div>
-
-      <div class="tick" style="left:50%;"></div>
-      <div class="tick-label" style="left:50%;">50</div>
-
-      <div class="tick" style="left:66.6667%;"></div>
-      <div class="tick-label" style="left:66.6667%;">75</div>
-
-      <div class="tick" style="left:83.3333%;"></div>
-      <div class="tick-label" style="left:83.3333%;">100</div>
-
-      <div class="tick" style="left:100%;"></div>
-      <div class="tick-label" style="left:100%;">125</div>
-
-      <div class="handle hidden" id="handle2"></div>
     </div>
 
-    <div class="value" id="value2"></div>
+
+    <!-- =================================================
+         TRIAL 2 SCALE: -25 TO 125
+    ================================================== -->
+
+    <div
+      class="scale-wrap"
+      id="scale2">
+
+<div class="scale-line">
+  <div class="extension-left"></div>
+  <div class="original-range"></div>
+  <div class="extension-right"></div>
+</div>
+
+      <!-- -25 -->
+
+      <!-- 0 -->
+
+      <!-- 25 -->
+
+      <!-- 50 -->
+
+      <!-- 75 -->
+
+      <!-- 100 -->
+
+      <!-- 125 -->
+
+
+      <!-- =================================================
+           EERSTE ANTWOORD
+           
+           Deze positie wordt automatisch bepaald.
+           Bijvoorbeeld:
+           
+           Eerste antwoord = 100
+           → positie = 83.33%
+           
+           Eerste antwoord = 70
+           → positie = 63.33%
+           
+           Eerste antwoord = 0
+           → positie = 16.67%
+      ================================================== -->
+
+      <div
+        id="firstAnswerMarker"
+        class="first-answer-marker hidden">
+      </div>
+
+      <div
+        id="firstAnswerLabel"
+        class="first-answer-label hidden">
+        your first answer
+      </div>
+
+
+      <!-- HUIDIGE ANTWOORD VAN HET KIND -->
+
+      <div
+        class="handle hidden"
+        id="handle2">
+      </div>
+
+    </div>
+
+
+    <div
+      class="value"
+      id="value2">
+    </div>
+
   </div>
 
-  <button id="finishBtn" disabled>Finish</button>
+
+  <button id="finishBtn" disabled>
+    Finish
+  </button>
+
 </section>
+
+
+
+<!-- =====================================================
+     FINISH
+===================================================== -->
 
 <section id="finish" class="screen hidden">
+
   <div class="finish">
-    <h1>Thank you!</h1>
-    <p id="finishMessage">Your response is being recorded.</p>
-    <div id="saveStatus" class="status">Saving...</div>
-    <button id="restartBtn">New participant</button>
+
+    <h1>
+      Thank you!
+    </h1>
+
+    <p>
+      Your response has been recorded.
+    </p>
+
+    <button id="downloadBtn">
+      Download data
+    </button>
+
+    <button id="restartBtn">
+      New participant
+    </button>
+
   </div>
+
 </section>
 
-<div class="admin">iPad confidence scale prototype</div>
+
+<div class="admin">
+  iPad confidence scale prototype
+</div>
+
+
 
 <script>
-/* ============================================================
-   GOOGLE SHEETS CONNECTION
-   ------------------------------------------------------------
- 
-   ============================================================ */
+
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwolCtFDVjMoElB9FYDG6rzRFbXCrOCzpDngbfgcMXm36-E5twHkLEKExMq0d6l-3CKYg/exec";
 
 
-/* ============================================================
-   EXPERIMENT STATE
-   ============================================================ */
+/* =====================================================
+   STATE
+===================================================== */
+
 const state = {
+
   participant: "",
-  sessionId: "",
 
   trial: 1,
 
   firstPosition: null,
+
   firstValue: null,
 
   secondPosition: null,
+
   secondValue: null,
 
   changeFromFirst: null,
-  directionFromFirst: null,
 
   firstRT: null,
+
   secondRT: null,
 
   firstTimestamp: null,
+
   secondTimestamp: null,
 
   leftAnimal: "🐶",
+
   rightAnimal: "🐱",
 
   leftLabel: "Dog",
+
   rightLabel: "Cat"
 };
+
 
 let trialStart = null;
 
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
+/* =====================================================
+   SHOW SCREEN
+===================================================== */
+
 function show(id) {
-  document.querySelectorAll(".screen")
-    .forEach(screen => screen.classList.add("hidden"));
 
-  document.getElementById(id).classList.remove("hidden");
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen => {
+      screen.classList.add("hidden");
+    });
+
+  document
+    .getElementById(id)
+    .classList.remove("hidden");
 }
 
-function createSessionId() {
-  const now = new Date();
-  const random = Math.random().toString(36).slice(2, 8).toUpperCase();
 
-  return [
-    now.getFullYear(),
-    String(now.getMonth() + 1).padStart(2, "0"),
-    String(now.getDate()).padStart(2, "0"),
-    "-",
-    String(now.getTime()),
-    "-",
-    random
-  ].join("");
-}
+/* =====================================================
+   SET ANIMALS
+===================================================== */
 
 function setAnimals() {
-  ["leftAnimal1", "leftAnimal2"].forEach(id => {
-    document.getElementById(id).textContent = state.leftAnimal;
+
+  [
+    "leftAnimal1",
+    "leftAnimal2"
+  ].forEach(id => {
+
+    document
+      .getElementById(id)
+      .textContent =
+      state.leftAnimal;
   });
 
-  ["rightAnimal1", "rightAnimal2"].forEach(id => {
-    document.getElementById(id).textContent = state.rightAnimal;
+
+  [
+    "rightAnimal1",
+    "rightAnimal2"
+  ].forEach(id => {
+
+    document
+      .getElementById(id)
+      .textContent =
+      state.rightAnimal;
   });
 
-  ["leftLabel1", "leftLabel2"].forEach(id => {
-    document.getElementById(id).textContent = state.leftLabel;
+
+  [
+    "leftLabel1",
+    "leftLabel2"
+  ].forEach(id => {
+
+    document
+      .getElementById(id)
+      .textContent =
+      state.leftLabel;
   });
 
-  ["rightLabel1", "rightLabel2"].forEach(id => {
-    document.getElementById(id).textContent = state.rightLabel;
+
+  [
+    "rightLabel1",
+    "rightLabel2"
+  ].forEach(id => {
+
+    document
+      .getElementById(id)
+      .textContent =
+      state.rightLabel;
   });
 }
+
+
+/* =====================================================
+   POSITION FROM TOUCH
+===================================================== */
 
 function positionFromEvent(event, scale) {
-  const rect = scale.getBoundingClientRect();
-  const x = event.clientX - rect.left;
 
-  return Math.max(0, Math.min(1, x / rect.width));
+  const rect =
+    scale.getBoundingClientRect();
+
+  const x =
+    event.clientX - rect.left;
+
+  return Math.max(
+    0,
+    Math.min(
+      1,
+      x / rect.width
+    )
+  );
 }
 
 
-/* ============================================================
-   TRIAL 1: 0–100
-   ============================================================ */
+/* =====================================================
+   TRIAL 1 SCALE
+     
+   Deze functie wordt ALLEEN gebruikt voor trial 1.
+   0% = 0
+   100% = 100
+===================================================== */
+
 function activateTrial1() {
-  const scale = document.getElementById("scale1");
-  const handle = document.getElementById("handle1");
-  const button = document.getElementById("next1");
-  const valueElement = document.getElementById("value1");
+
+  const scale =
+    document.getElementById("scale1");
+
+  const handle =
+    document.getElementById("handle1");
+
+  const button =
+    document.getElementById("next1");
+
+  const valueElement =
+    document.getElementById("value1");
+
 
   let activePointerId = null;
 
-  function setPosition(position) {
-    handle.classList.remove("hidden");
-    handle.style.left = `${position * 100}%`;
 
-    const value = Math.round(position * 100);
-    valueElement.textContent = `${value} / 100`;
+  function setPosition(position) {
+
+    handle.classList.remove("hidden");
+
+    handle.style.left =
+      `${position * 100}%`;
+
+
+    const value =
+      position * 100;
+
+
+    valueElement.textContent =
+      Math.round(value);
+
 
     button.disabled = false;
 
-    state.firstPosition = position;
-    state.firstValue = value;
-    state.firstRT = Math.round(performance.now() - trialStart);
-    state.firstTimestamp = new Date().toISOString();
+
+    state.firstPosition =
+      position;
+
+    state.firstValue =
+      value;
+
+
+    state.firstRT =
+      Math.round(
+        performance.now() -
+        trialStart
+      );
+
+
+    state.firstTimestamp =
+      new Date().toISOString();
   }
 
-  scale.addEventListener("pointerdown", event => {
-    event.preventDefault();
-    activePointerId = event.pointerId;
-    scale.setPointerCapture?.(event.pointerId);
-    setPosition(positionFromEvent(event, scale));
-  });
 
-  scale.addEventListener("pointermove", event => {
-    if (
-      activePointerId === event.pointerId &&
-      (event.buttons || event.pressure > 0)
-    ) {
+  scale.addEventListener(
+    "pointerdown",
+    event => {
+
       event.preventDefault();
-      setPosition(positionFromEvent(event, scale));
+
+      activePointerId =
+        event.pointerId;
+
+      scale.setPointerCapture?.(
+        event.pointerId
+      );
+
+      setPosition(
+        positionFromEvent(
+          event,
+          scale
+        )
+      );
     }
-  });
+  );
 
-  scale.addEventListener("pointerup", event => {
-    if (activePointerId === event.pointerId) activePointerId = null;
-  });
 
-  scale.addEventListener("pointercancel", event => {
-    if (activePointerId === event.pointerId) activePointerId = null;
-  });
+  scale.addEventListener(
+    "pointermove",
+    event => {
+
+      if (
+        activePointerId ===
+        event.pointerId &&
+        (
+          event.buttons ||
+          event.pressure > 0
+        )
+      ) {
+
+        event.preventDefault();
+
+        setPosition(
+          positionFromEvent(
+            event,
+            scale
+          )
+        );
+      }
+    }
+  );
+
+
+  scale.addEventListener(
+    "pointerup",
+    event => {
+
+      if (
+        activePointerId ===
+        event.pointerId
+      ) {
+
+        activePointerId =
+          null;
+      }
+    }
+  );
+
+
+  scale.addEventListener(
+    "pointercancel",
+    event => {
+
+      if (
+        activePointerId ===
+        event.pointerId
+      ) {
+
+        activePointerId =
+          null;
+      }
+    }
+  );
 }
 
 
-/* ============================================================
-   TRIAL 2: -25–125
-   The first numerical answer stays at its numerical value.
-   Example:
-   firstValue = 100
-   trial-2 position = (100 + 25) / 150 = 83.33%
-   ============================================================ */
+/* =====================================================
+   TRIAL 2 SCALE
+     
+   -25 TO 125
+     
+   Dit is de nieuwe uitschuifbare schaal.
+===================================================== */
+
 function activateTrial2() {
-  const scale = document.getElementById("scale2");
-  const handle = document.getElementById("handle2");
-  const button = document.getElementById("finishBtn");
-  const valueElement = document.getElementById("value2");
+
+  const scale =
+    document.getElementById("scale2");
+
+  const handle =
+    document.getElementById("handle2");
+
+  const button =
+    document.getElementById("finishBtn");
+
+  const valueElement =
+    document.getElementById("value2");
+
 
   let activePointerId = null;
 
+
   function setPosition(position) {
+
     handle.classList.remove("hidden");
-    handle.style.left = `${position * 100}%`;
 
-    const value = -25 + (position * 150);
-    const roundedValue = Math.round(value);
+    handle.style.left =
+      `${position * 100}%`;
 
-    valueElement.textContent = `${roundedValue}`;
+
+    /*
+      De nieuwe schaal loopt van
+      -25 tot 125.
+
+      Totale lengte = 150 punten.
+
+      positie 0.00 → -25
+      positie 0.50 → 50
+      positie 1.00 → 125
+    */
+
+    const value =
+      -25 +
+      (position * 150);
+
+
+    valueElement.textContent =
+      Math.round(value);
+
 
     button.disabled = false;
 
-    state.secondPosition = position;
-    state.secondValue = roundedValue;
-    state.changeFromFirst = roundedValue - state.firstValue;
 
-    if (roundedValue > state.firstValue) {
-      state.directionFromFirst = "higher";
-    } else if (roundedValue < state.firstValue) {
-      state.directionFromFirst = "lower";
-    } else {
-      state.directionFromFirst = "unchanged";
-    }
+    state.secondPosition =
+      position;
 
-    state.secondRT = Math.round(performance.now() - trialStart);
-    state.secondTimestamp = new Date().toISOString();
+    state.secondValue =
+      value;
+
+
+    /*
+      Hoeveel is het kind veranderd
+      ten opzichte van het eerste antwoord?
+    */
+
+    state.changeFromFirst =
+      value -
+      state.firstValue;
+
+
+    state.secondRT =
+      Math.round(
+        performance.now() -
+        trialStart
+      );
+
+
+    state.secondTimestamp =
+      new Date().toISOString();
   }
 
-  scale.addEventListener("pointerdown", event => {
-    event.preventDefault();
-    activePointerId = event.pointerId;
-    scale.setPointerCapture?.(event.pointerId);
-    setPosition(positionFromEvent(event, scale));
-  });
 
-  scale.addEventListener("pointermove", event => {
-    if (
-      activePointerId === event.pointerId &&
-      (event.buttons || event.pressure > 0)
-    ) {
+  scale.addEventListener(
+    "pointerdown",
+    event => {
+
       event.preventDefault();
-      setPosition(positionFromEvent(event, scale));
+
+      activePointerId =
+        event.pointerId;
+
+      scale.setPointerCapture?.(
+        event.pointerId
+      );
+
+      setPosition(
+        positionFromEvent(
+          event,
+          scale
+        )
+      );
     }
-  });
+  );
 
-  scale.addEventListener("pointerup", event => {
-    if (activePointerId === event.pointerId) activePointerId = null;
-  });
 
-  scale.addEventListener("pointercancel", event => {
-    if (activePointerId === event.pointerId) activePointerId = null;
-  });
+  scale.addEventListener(
+    "pointermove",
+    event => {
+
+      if (
+        activePointerId ===
+        event.pointerId &&
+        (
+          event.buttons ||
+          event.pressure > 0
+        )
+      ) {
+
+        event.preventDefault();
+
+        setPosition(
+          positionFromEvent(
+            event,
+            scale
+          )
+        );
+      }
+    }
+  );
+
+
+  scale.addEventListener(
+    "pointerup",
+    event => {
+
+      if (
+        activePointerId ===
+        event.pointerId
+      ) {
+
+        activePointerId =
+          null;
+      }
+    }
+  );
+
+
+  scale.addEventListener(
+    "pointercancel",
+    event => {
+
+      if (
+        activePointerId ===
+        event.pointerId
+      ) {
+
+        activePointerId =
+          null;
+      }
+    }
+  );
 }
 
 
-/* ============================================================
+/* =====================================================
+   START BUTTON
+===================================================== */
+
+document
+  .getElementById("startBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      state.participant =
+        document
+          .getElementById("participant")
+          .value
+          .trim() ||
+        "anonymous";
+
+
+      setAnimals();
+
+
+      state.trial = 1;
+
+
+      trialStart =
+        performance.now();
+
+
+      show("trial1");
+
+
+      document
+        .getElementById("handle1")
+        .classList.add("hidden");
+
+
+      document
+        .getElementById("next1")
+        .disabled = true;
+    }
+  );
+
+
+/* =====================================================
+   INITIALIZE TRIAL 1
+===================================================== */
+
+activateTrial1();
+
+
+/* =====================================================
+   TRIAL 1 → TRIAL 2
+===================================================== */
+
+document
+  .getElementById("next1")
+  .addEventListener(
+    "click",
+    () => {
+
+      state.trial = 2;
+
+
+      trialStart =
+        performance.now();
+
+
+      /*
+        =================================================
+        BELANGRIJKSTE BEREKENING
+        =================================================
+
+        Eerste antwoord is bijvoorbeeld 100.
+
+        Trial 2 loopt van -25 tot 125.
+
+        We moeten bepalen waar 100 zich
+        op deze nieuwe schaal bevindt.
+
+        Formule:
+
+        (oude waarde - nieuwe minimum)
+        /
+        (nieuwe maximum - nieuwe minimum)
+
+        Voor 100:
+
+        (100 - (-25)) / 150
+
+        = 125 / 150
+
+        = 0.8333
+
+        Dus 100 staat op 83.33% van de balk.
+      */
+
+      const firstAnswerPosition =
+        (
+          state.firstValue + 25
+        ) / 150;
+
+
+      /*
+        Zet het merkteken van het
+        eerste antwoord op de juiste
+        fysieke positie.
+      */
+
+      const marker =
+        document.getElementById(
+          "firstAnswerMarker"
+        );
+
+
+      const label =
+        document.getElementById(
+          "firstAnswerLabel"
+        );
+
+
+      marker.style.left =
+        `${firstAnswerPosition * 100}%`;
+
+
+      label.style.left =
+        `${firstAnswerPosition * 100}%`;
+
+
+      marker.classList.remove(
+        "hidden"
+      );
+
+
+      label.classList.remove(
+        "hidden"
+      );
+
+
+      /*
+        Reset het tweede antwoord.
+      */
+
+      document
+        .getElementById("handle2")
+        .classList.add("hidden");
+
+
+      document
+        .getElementById("value2")
+        .textContent = "";
+
+
+      document
+        .getElementById("finishBtn")
+        .disabled = true;
+
+
+      show("trial2");
+    }
+  );
+
+
+/* =====================================================
+   INITIALIZE TRIAL 2
+===================================================== */
+
+activateTrial2();
+
+
+
+/* =====================================================
    SEND DATA TO GOOGLE SHEETS
-   ------------------------------------------------------------
-   navigator.sendBeacon() is used so the browser can send the
-   result without navigating away from the experiment page.
-   The Apps Script endpoint receives the JSON in doPost().
-   ============================================================ */
-function buildData() {
-  return {
+===================================================== */
+
+function sendDataToGoogleSheets() {
+
+  const data = {
     participant: state.participant,
-    session_id: state.sessionId,
 
     first_position_0_to_1: state.firstPosition,
     first_value_0_to_100: state.firstValue,
@@ -679,139 +1234,225 @@ function buildData() {
     left_label: state.leftLabel,
     right_label: state.rightLabel
   };
-}
 
-function sendDataToGoogleSheets() {
-  const status = document.getElementById("saveStatus");
+  const payload = JSON.stringify(data);
 
-  if (!GOOGLE_SCRIPT_URL) {
-    status.textContent =
-      "Data was not sent: Google Sheets URL has not been added yet.";
-    status.classList.add("error");
-    return false;
-  }
+  if (navigator.sendBeacon) {
 
-  const payload = JSON.stringify(buildData());
-
-  try {
     const blob = new Blob(
       [payload],
-      { type: "text/plain;charset=UTF-8" }
+      { type: "text/plain;charset=utf-8" }
     );
 
-    const sent = navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
+    navigator.sendBeacon(
+      GOOGLE_SCRIPT_URL,
+      blob
+    );
 
-    if (sent) {
-      status.textContent = "Response recorded.";
-      status.classList.remove("error");
-      return true;
-    }
+  } else {
 
-    status.textContent =
-      "The response could not be sent. Please inform the researcher.";
-    status.classList.add("error");
-    return false;
+    fetch(
+      GOOGLE_SCRIPT_URL,
+      {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: payload
+      }
+    );
 
-  } catch (error) {
-    console.error(error);
-
-    status.textContent =
-      "The response could not be sent. Please inform the researcher.";
-    status.classList.add("error");
-
-    return false;
   }
 }
 
 
-/* ============================================================
-   START
-   ============================================================ */
-document.getElementById("startBtn").addEventListener("click", () => {
-  state.participant =
-    document.getElementById("participant").value.trim() || "anonymous";
+/* =====================================================
+   FINISH BUTTON
+===================================================== */
 
-  state.sessionId = createSessionId();
+document
+  .getElementById("finishBtn")
+  .addEventListener(
+    "click",
+    () => {
 
-  setAnimals();
+      /*
+        Bepaal de richting van de verandering.
 
-  state.trial = 1;
-  trialStart = performance.now();
+        Positief = hogere waarde
+        Negatief = lagere waarde
+      */
 
-  show("trial1");
+      if (
+        state.secondValue >
+        state.firstValue
+      ) {
 
-  document.getElementById("handle1").classList.add("hidden");
-  document.getElementById("next1").disabled = true;
-});
+        state.directionFromFirst =
+          "higher";
 
+      } else if (
+        state.secondValue <
+        state.firstValue
+      ) {
 
-/* ============================================================
-   TRIAL 1 -> TRIAL 2
-   ============================================================ */
-document.getElementById("next1").addEventListener("click", () => {
-  trialStart = performance.now();
-  state.trial = 2;
+        state.directionFromFirst =
+          "lower";
 
-  /*
-    The first numerical value remains fixed.
-    It is placed on the extended -25..125 scale.
-  */
-  const firstAnswerPosition =
-    (state.firstValue + 25) / 150;
+      } else {
 
-  const marker =
-    document.getElementById("midpoint");
-
-  const label =
-    document.getElementById("midpointLabel");
-
-  marker.style.left =
-    `${firstAnswerPosition * 100}%`;
-
-  label.style.left =
-    `${firstAnswerPosition * 100}%`;
-
-  document.getElementById("handle2").classList.add("hidden");
-  document.getElementById("value2").textContent = "";
-  document.getElementById("finishBtn").disabled = true;
-
-  show("trial2");
-});
+        state.directionFromFirst =
+          "unchanged";
+      }
 
 
-/* ============================================================
-   FINISH
-   ============================================================ */
-document.getElementById("finishBtn").addEventListener("click", () => {
-  /*
-    The current second value has already been calculated in
-    activateTrial2(). No percentage-based comparison is used.
-  */
+      sendDataToGoogleSheets();
 
-  show("finish");
-
-  document.getElementById("finishMessage").textContent =
-    "Your response is being recorded.";
-
-  document.getElementById("saveStatus").textContent = "Saving...";
-  document.getElementById("saveStatus").classList.remove("error");
-
-  sendDataToGoogleSheets();
-});
+      show("finish");
+    }
+  );
 
 
-/* ============================================================
-   RESTART
-   ============================================================ */
-document.getElementById("restartBtn").addEventListener("click", () => {
-  location.reload();
-});
+/* =====================================================
+   CSV ESCAPE
+===================================================== */
+
+function csvEscape(value) {
+
+  const stringValue =
+    String(value ?? "");
+
+  return `"${stringValue.replaceAll(
+    '"',
+    '""'
+  )}"`;
+}
 
 
-/* Activate both scales once. */
-activateTrial1();
-activateTrial2();
+/* =====================================================
+   DOWNLOAD DATA
+===================================================== */
+
+document
+  .getElementById("downloadBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      const headers = [
+
+        "participant",
+
+        "first_position_0_to_1",
+
+        "first_value_0_to_100",
+
+        "second_position_0_to_1",
+
+        "second_value_minus25_to125",
+
+        "change_from_first",
+
+        "direction_from_first",
+
+        "first_RT_ms",
+
+        "second_RT_ms",
+
+        "first_timestamp",
+
+        "second_timestamp"
+      ];
+
+
+      const values = [
+
+        state.participant,
+
+        state.firstPosition,
+
+        state.firstValue,
+
+        state.secondPosition,
+
+        state.secondValue,
+
+        state.changeFromFirst,
+
+        state.directionFromFirst,
+
+        state.firstRT,
+
+        state.secondRT,
+
+        state.firstTimestamp,
+
+        state.secondTimestamp
+      ];
+
+
+      const csv =
+        headers.map(csvEscape).join(",") +
+        "\n" +
+        values.map(csvEscape).join(",") +
+        "\n";
+
+
+      const blob =
+        new Blob(
+          [csv],
+          {
+            type:
+              "text/csv;charset=utf-8"
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(blob);
+
+
+      const link =
+        document.createElement("a");
+
+
+      link.href = url;
+
+
+      link.download =
+        `confidence_scale_${state.participant}.csv`;
+
+
+      link.click();
+
+
+      setTimeout(
+        () => {
+          URL.revokeObjectURL(url);
+        },
+        1000
+      );
+    }
+  );
+
+
+/* =====================================================
+   NEW PARTICIPANT
+===================================================== */
+
+document
+  .getElementById("restartBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      location.reload();
+
+    }
+  );
 
 </script>
+
 </body>
 </html>
