@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
-<title>Extendable Confidence Scale</title>
+<title>Confidence Scale</title>
 
 <style>
   :root {
@@ -67,7 +67,7 @@
     width: min(1100px, 92vw);
   }
 #scale1 {
-  width: 75%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -104,7 +104,7 @@
     left: 0;
     right: 0;
     top: 50%;
-    height: 18px;
+    height: 28px;
     background: linear-gradient(
       90deg,
       #9a6500 0%,
@@ -120,6 +120,10 @@
     transform: translateY(-50%);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
   }
+.scale-line {
+    overflow: hidden;
+  }
+
 .extension-left {
   left: 0;
   width: 16.6667%;
@@ -197,10 +201,6 @@
     inset: -18px;
   }
 
-  /*
-    Dit is het visuele merkteken van het
-    eerste antwoord in trial 2.
-  */
   .first-answer-marker {
     position: absolute;
     top: 50%;
@@ -346,14 +346,6 @@
 
 <section id="trial1" class="screen hidden">
 
-  <h1>
-    Which animal do you think there are more of?
-  </h1>
-
-  <div class="instruction">
-    Tap or drag the circle to show what you think.
-  </div>
-
   <div class="task">
 
     <div class="animal-row">
@@ -413,9 +405,9 @@
 <!-- =====================================================
      TRIAL 2
      
-     NIEUWE UITBREIDBARE SCHAAL:
+     DEZELFDE SCHAAL ALS TRIAL 1:
      
-     -25 ---------------------------- 125
+     0 ------------------------------ 100
      
      Eerste antwoord blijft op dezelfde
      NUMERIEKE waarde staan.
@@ -423,16 +415,7 @@
 
 <section id="trial2" class="screen hidden">
 
-   <h1>
-    Which animal do you think there are more of?
-  </h1>
-
-  <div class="instruction">
-    Tap or drag the circle to show what you think.
-  </div>
-
-
-  <div class="task">
+   <div class="task">
 
     <div class="animal-row">
 
@@ -461,18 +444,14 @@
 
 
     <!-- =================================================
-         TRIAL 2 SCALE: -25 TO 125
+         TRIAL 2 SCALE: 0 TO 100
     ================================================== -->
 
     <div
       class="scale-wrap"
       id="scale2">
 
-<div class="scale-line">
-  <div class="extension-left"></div>
-  <div class="original-range"></div>
-  <div class="extension-right"></div>
-</div>
+<div class="scale-line"></div>
 
       <!-- -25 -->
 
@@ -493,16 +472,9 @@
            EERSTE ANTWOORD
            
            Deze positie wordt automatisch bepaald.
-           Bijvoorbeeld:
-           
-           Eerste antwoord = 100
-           → positie = 83.33%
-           
+           Voorbeeld:
            Eerste antwoord = 70
-           → positie = 63.33%
-           
-           Eerste antwoord = 0
-           → positie = 16.67%
+           → positie = 70%
       ================================================== -->
 
       <div
@@ -899,20 +871,8 @@ function activateTrial2() {
       `${position * 100}%`;
 
 
-    /*
-      De nieuwe schaal loopt van
-      -25 tot 125.
-
-      Totale lengte = 150 punten.
-
-      positie 0.00 → -25
-      positie 0.50 → 50
-      positie 1.00 → 125
-    */
-
-    const value =
-      -25 +
-      (position * 150);
+    /* Trial 2 keeps the original 0–100 range. */
+    const value = position * 100;
 
 
     valueElement.textContent =
@@ -1100,39 +1060,8 @@ document
         performance.now();
 
 
-      /*
-        =================================================
-        BELANGRIJKSTE BEREKENING
-        =================================================
-
-        Eerste antwoord is bijvoorbeeld 100.
-
-        Trial 2 loopt van -25 tot 125.
-
-        We moeten bepalen waar 100 zich
-        op deze nieuwe schaal bevindt.
-
-        Formule:
-
-        (oude waarde - nieuwe minimum)
-        /
-        (nieuwe maximum - nieuwe minimum)
-
-        Voor 100:
-
-        (100 - (-25)) / 150
-
-        = 125 / 150
-
-        = 0.8333
-
-        Dus 100 staat op 83.33% van de balk.
-      */
-
-      const firstAnswerPosition =
-        (
-          state.firstValue + 25
-        ) / 150;
+      /* Trial 2 uses the same 0–100 range as Trial 1. */
+      const firstAnswerPosition = state.firstValue / 100;
 
 
       /*
@@ -1216,7 +1145,7 @@ function sendDataToGoogleSheets() {
     first_value_0_to_100: state.firstValue,
 
     second_position_0_to_1: state.secondPosition,
-    second_value_minus25_to125: state.secondValue,
+    second_value_0_to_100: state.secondValue,
 
     change_from_first: state.changeFromFirst,
     direction_from_first: state.directionFromFirst,
@@ -1350,7 +1279,7 @@ document
 
         "second_position_0_to_1",
 
-        "second_value_minus25_to125",
+        "second_value_0_to_100",
 
         "change_from_first",
 
